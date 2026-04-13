@@ -1,0 +1,19 @@
+.spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top: 6px solid #1e3c72; /* Dark Blue */
+  border-right: 6px solid #2a5298; /* Light Blue */
+  animation: spin 1s linear infinite;
+  background: white;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,193 @@
+:root {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #f4f4f4, #e8e8e8);
+}
+
+/* Centered Login/Signup Form */
+.container {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Login/Signup Box */
+.auth-box {
+  background: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 350px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Input Fields */
+.auth-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.auth-box input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  padding: 12px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #357ab7;
+}
+
+/* Headings */
+h1 {
+  font-size: 2em;
+  line-height: 1.2;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.layout-contianer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Links */
+a {
+  color: #00c6ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .auth-box {
+    width: 90%;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+  }
+  .auth-box {
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+  }
+  .auth-box input {
+    background: rgba(0, 0, 0, 0.05);
+    color: black;
+  }
+  h1 {
+    color: black;
+  }
+}
+
+/* Layout Container */
+.layout-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #f8fafc;
+  padding: 20px;
+}
+
+/* Ensure body and html are reset properly */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Content Container */
+.content-container {
+  flex: 1;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.header-group {
+  padding: 2rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heading-main {
+  color: #1e3c72;
+  margin-bottom: 0.5rem;
+  font-size: 36px;
+  font-variant: small-caps;
+}
+
+.no-courses {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

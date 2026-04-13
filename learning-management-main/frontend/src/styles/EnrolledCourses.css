@@ -1,0 +1,784 @@
+.enrolled-courses-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .enrolled-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .enrolled-course-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .enrolled-course-card h2 {
+    color: #1e3c72;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .instructor {
+    color: #666;
+    font-style: italic;
+    margin: 1rem 0;
+  }
+  
+  .lectures-container {
+    margin-top: 1.5rem;
+  }
+  
+  .lecture-item {
+    margin-bottom: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .lecture-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .play-icon {
+    color: #1e3c72;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .no-courses {
+    text-align: center;
+    color: #666;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+
+  .enrolled-courses-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    color: #1e3c72;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .enrolled-courses-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .enrolled-course-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .course-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2ecc71;
+    font-size: 0.9rem;
+  }
+  
+  .course-info {
+    margin-bottom: 2rem;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    transition: width 0.3s ease;
+  }
+  
+  .lecture-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  
+  .lecture-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lecture-header:hover {
+    background: #e9ecef;
+  }
+  
+  .lecture-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .lecture-number {
+    width: 28px;
+    height: 28px;
+    background: #1e3c72;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .play-icon {
+    color: #1e3c72;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .lecture-header:hover .play-icon {
+    transform: scale(1.2);
+  }
+  
+  .lecture-item.active .lecture-header {
+    background: #e3e6e9;
+  }
+  
+  .no-courses {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .empty-icon {
+    font-size: 3rem;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .enrolled-courses-container {
+      padding: 1rem;
+    }
+  
+    .course-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    .lecture-info h4 {
+      font-size: 0.9rem;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  .enrolled-courses-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .enrolled-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .enrolled-header h1 {
+    color: #1e3c72;
+    font-size: 2rem;
+  }
+  
+  .enrolled-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1e3c72;
+    font-size: 1.1rem;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    color: #1e3c72;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .enrolled-courses-grid {
+    display: grid;
+    gap: 2rem;
+  }
+  
+  .enrolled-course-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .course-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2ecc71;
+    font-size: 0.9rem;
+    background: #e8f5e9;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+  }
+  
+  .course-info {
+    margin-bottom: 2rem;
+  }
+  
+  .instructor {
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .progress-section {
+    margin: 1.5rem 0;
+  }
+  
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    transition: width 0.3s ease;
+  }
+  
+  .lectures-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  
+  .lectures-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+  }
+  
+  .lecture-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .lecture-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lecture-header:hover {
+    background: #e9ecef;
+  }
+  
+  .lecture-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .lecture-number {
+    background: #1e3c72;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .play-icon {
+    color: #1e3c72;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .play-icon.completed {
+    color: #2ecc71;
+  }
+  
+  .lecture-header:hover .play-icon {
+    transform: scale(1.2);
+  }
+  
+  .no-courses {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .no-courses .empty-icon {
+    font-size: 4rem;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+  }
+  
+  .no-courses h2 {
+    color: #1e3c72;
+    margin-bottom: 1rem;
+  }
+  
+  .no-courses p {
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .enrolled-courses-container {
+      padding: 1rem;
+    }
+  
+    .enrolled-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    .course-header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .lecture-info h4 {
+      font-size: 0.9rem;
+    }
+  }
+
+
+  .enrolled-courses-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .enrolled-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+  }
+  
+  .enrolled-courses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .enrolled-course-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .enrolled-course-card.active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .course-header {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    transition: background-color 0.3s ease;
+  }
+  
+  .course-header:hover {
+    background: #e9ecef;
+  }
+  
+  .course-main-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .course-main-info h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1e3c72;
+  }
+  
+  .course-collapse {
+    color: #1e3c72;
+    transition: transform 0.3s ease;
+  }
+  
+  .active .course-collapse {
+    transform: rotate(180deg);
+  }
+  
+  .course-content {
+    padding: 1.5rem;
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .course-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 20px;
+    font-size: 0.875rem;
+  }
+  
+  .lecture-item {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .lecture-header {
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lecture-header:hover {
+    background: #f8f9fa;
+  }
+  
+  .lecture-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .lecture-number {
+    width: 24px;
+    height: 24px;
+    background: #1e3c72;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .play-icon {
+    color: #1e3c72;
+    transition: transform 0.3s ease;
+  }
+  
+  .play-icon.completed {
+    color: #2ecc71;
+  }
+  
+  .lecture-header:hover .play-icon {
+    transform: scale(1.1);
+  }
+  
+  @media (max-width: 768px) {
+    .enrolled-courses-container {
+      padding: 1rem;
+    }
+    
+    .course-main-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .enrolled-courses-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .enrolled-course-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .lectures-section {
+    margin-top: 20px;
+  }
+  
+  .lecture-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .video-wrapper {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .lecture-item h4 {
+    color: #1e3c72;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .no-lectures {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+  }
+  
+  .no-courses-message {
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #666;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+  .google-meet-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4285f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .google-meet-link:hover {
+    background-color: #357ae8;
+  }

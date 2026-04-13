@@ -1,0 +1,284 @@
+.marks-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.marks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.back-btn {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #d0d0d0;
+  transform: translateY(-2px);
+}
+
+.header-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.header-content h1 {
+  color: #1e3c72;
+  font-size: 2rem;
+  margin: 0 0 5px;
+  font-weight: 700;
+}
+
+.header-content h2 {
+  color: #2c5aa0;
+  font-size: 1.5rem;
+  margin: 0 0 5px;
+  font-weight: 600;
+}
+
+.header-content p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.download-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.marks-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marks-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.marks-table thead {
+  background: linear-gradient(135deg, #1e3c72 0%, #2c5aa0 100%);
+  color: white;
+}
+
+.marks-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.marks-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.marks-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.marks-table tbody tr.passed-row {
+  background-color: #f0f7f0;
+}
+
+.marks-table tbody tr.failed-row {
+  background-color: #fff5f5;
+}
+
+.marks-table td {
+  padding: 16px;
+  color: #333;
+}
+
+.student-name {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+.student-email {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.score {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+.percentage {
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.badge.passed {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.badge.failed {
+  background: #ffcdd2;
+  color: #c62828;
+}
+
+.status {
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.status-badge.passed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.failed {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.submitted-at {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.no-marks {
+  background: white;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-marks p {
+  color: #999;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  min-height: 400px;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1e3c72;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-container p {
+  color: #1e3c72;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .marks-container {
+    padding: 20px 10px;
+  }
+
+  .marks-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .marks-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .marks-table th,
+  .marks-table td {
+    padding: 12px 8px;
+    font-size: 0.85rem;
+  }
+
+  .student-email {
+    display: none;
+  }
+
+  .submitted-at {
+    display: none;
+  }
+}
