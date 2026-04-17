@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Link, useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
+import "../styles/Auth.css";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ const SignUp = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
     try {
       await axios.post("http://localhost:5000/api/auth/register", {
         name,
@@ -20,14 +22,15 @@ const SignUp = () => {
         password,
         role,
       });
+
       setMessage({
-        text: "Signup Successful! Redirecting to login...",
+        text: "Signup successful. Redirecting you to login...",
         type: "success",
       });
 
       setTimeout(() => {
-        navigate("/");
-      }, 1500);
+        navigate("/signin");
+      }, 1200);
     } catch (err) {
       setMessage({
         text: err.response?.data?.message || "Signup failed",
@@ -37,76 +40,78 @@ const SignUp = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div
-        className="card p-4 shadow-lg text-center"
-        style={{
-          width: "400px",
-          background: "#fff",
-          borderRadius: "12px",
-          padding: "30px",
-        }}
-      >
-        <img
-          src="/icon.png" // Change this to your logo path
-          alt="Learnit Logo"
-          style={{ width: "60px", margin: "0 auto 15px" }}
-        />
-        <h3 className="text-primary mb-3">Create Your Account</h3>
-        {message.text && (
-          <div className={`alert alert-${message.type} mt-2`}>
-            {message.text}
+    <div className="auth-page">
+      <div className="auth-shell">
+        <section className="auth-card">
+          <div className="auth-card__header">
+            <span className="auth-card__eyebrow">Get started</span>
+            <h2>Create your account</h2>
+            <p>Choose your role and set up your Learnit workspace.</p>
           </div>
-        )}
-        <form onSubmit={handleSignup}>
-          <div className="mb-3 text-start">
-            <label className="fw-bold mb-1">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 text-start">
-            <label className="fw-bold mb-1">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 text-start">
-            <label className="fw-bold mb-1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 text-start">
-            <label className="fw-bold mb-1">Role</label>
-            <select
-              className="form-control"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="student">Student</option>
-              <option value="instructor">Instructor</option>
-            </select>
-          </div>
-          <button type="submit" className="btn btn-primary w-100">
-            Sign Up
-          </button>
-        </form>
-        <p className="mt-3">
-          Already have an account? <a href="/">Login</a>
-        </p>
+
+          {message.text ? (
+            <div className={`auth-alert auth-alert--${message.type}`}>{message.text}</div>
+          ) : null}
+
+          <form onSubmit={handleSignup} className="auth-form">
+            <div className="auth-field">
+              <label htmlFor="signup-name">Full name</label>
+              <input
+                id="signup-name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="signup-email">Email</label>
+              <input
+                id="signup-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="signup-password">Password</label>
+              <input
+                id="signup-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a secure password"
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="signup-role">Role</label>
+              <select
+                id="signup-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="student">Student</option>
+                <option value="instructor">Instructor</option>
+              </select>
+            </div>
+
+            <button type="submit" className="primary-btn auth-submit">
+              <span>Create account</span>
+              <FaArrowRight />
+            </button>
+          </form>
+
+          <p className="auth-footer">
+            Already have an account? <Link to="/signin">Login here</Link>
+          </p>
+        </section>
       </div>
     </div>
   );

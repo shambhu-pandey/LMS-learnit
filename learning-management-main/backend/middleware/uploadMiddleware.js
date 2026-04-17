@@ -22,10 +22,21 @@ const storage = multer.diskStorage({
 
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') {
+    const allowedMimeTypes = new Set([
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'text/plain'
+    ]);
+    const allowedExtensions = new Set(['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.txt']);
+    const extension = path.extname(file.originalname).toLowerCase();
+
+    if (allowedMimeTypes.has(file.mimetype) || allowedExtensions.has(extension)) {
         cb(null, true);
     } else {
-        cb(new Error('Only PDF files are allowed!'), false);
+        cb(new Error('Only PDF, DOC, DOCX, PPT, PPTX, and TXT files are allowed!'), false);
     }
 };
 

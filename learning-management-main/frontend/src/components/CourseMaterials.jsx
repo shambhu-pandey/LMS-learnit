@@ -153,7 +153,7 @@ const CourseMaterials = () => {
   const fetchMaterials = async () => {
     console.log("Fetching materials for courseId:", courseId); // Debugging
     try {
-      const response = await axios.get(`/courses/${courseId}/materials`);
+      const response = await axios.get(`/api/courses/${courseId}/materials`);
       if (response.data.success) {
         setMaterials(response.data.materials);
       }
@@ -184,7 +184,7 @@ const CourseMaterials = () => {
 
     setUploading(true);
     try {
-      const response = await axios.post(`/courses/${courseId}/materials`, formData, {
+      const response = await axios.post(`/api/courses/${courseId}/materials`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

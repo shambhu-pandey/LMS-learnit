@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Link, useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
+import "../styles/Auth.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -11,17 +12,19 @@ const SignIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
         email,
         password,
       });
+
       localStorage.setItem("token", res.data.token);
-      setMessage({ text: "Login Successful! Redirecting...", type: "success" });
+      setMessage({ text: "Login successful. Redirecting to your dashboard...", type: "success" });
 
       setTimeout(() => {
         navigate("/dashboard");
-      }, 1500);
+      }, 1200);
     } catch (err) {
       setMessage({
         text: err.response?.data?.message || "Login failed",
@@ -31,51 +34,54 @@ const SignIn = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div
-        className="card p-4 shadow-lg"
-        style={{ width: "400px", background: "#fff", borderRadius: "15px" }}
-      >
-        <div className="text-center">
-          <img src="./icon.png" alt="LearnIt Logo" style={{ width: "60px" }} />
-        </div>
-        <h3 className="text-center text-dark mt-3">Login to Learnit.com</h3>
-        {message.text && (
-          <div className={`alert alert-${message.type} mt-2`}>
-            {message.text}
+    <div className="auth-page">
+      <div className="auth-shell">
+        <section className="auth-card">
+          <div className="auth-card__header">
+            <span className="auth-card__eyebrow">Welcome back</span>
+            <h2>Login to your workspace</h2>
+            <p>Use your registered email and password to continue.</p>
           </div>
-        )}
-        <form onSubmit={handleLogin} className="mt-3">
-          <div className="mb-3">
-            <label className="fw-bold mb-1">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="fw-bold mb-1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100 fw-bold">
-            Login
-          </button>
-        </form>
-        <p className="mt-3 text-center">
-          Don't have an account?{" "}
-          <a href="/signup" className="fw-bold">
-            Sign up
-          </a>
-        </p>
+
+          {message.text ? (
+            <div className={`auth-alert auth-alert--${message.type}`}>{message.text}</div>
+          ) : null}
+
+          <form onSubmit={handleLogin} className="auth-form">
+            <div className="auth-field">
+              <label htmlFor="signin-email">Email</label>
+              <input
+                id="signin-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="signin-password">Password</label>
+              <input
+                id="signin-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <button type="submit" className="primary-btn auth-submit">
+              <span>Login</span>
+              <FaArrowRight />
+            </button>
+          </form>
+
+          <p className="auth-footer">
+            Don&apos;t have an account? <Link to="/signup">Create one</Link>
+          </p>
+        </section>
       </div>
     </div>
   );

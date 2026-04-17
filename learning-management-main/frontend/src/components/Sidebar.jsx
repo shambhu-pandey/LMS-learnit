@@ -1,361 +1,126 @@
-
-
-// import { NavLink } from "react-router-dom";
-// import { FaTerminal, FaFileAlt } from "react-icons/fa"; // Import FaFileAlt for the new icon
-// import "../styles/Dashboard.css";
-// import {
-//   FaUser,
-//   FaHome,
-//   FaBook,
-//   FaChartBar,
-//   FaClipboardList,
-//   FaChalkboardTeacher,
-//   FaComments,
-//   FaCog,
-//   FaSignOutAlt,
-//   FaGraduationCap,
-//   FaSearch,
-//   FaUserGraduate,
-//   FaQuestionCircle,
-//   FaUserCircle,
-//   FaRegCalendarCheck,
-//   FaUpload,
-// } from "react-icons/fa";
-
-// export default function Sidebar({ user, handleLogout }) {
-//   return (
-//     <aside className="sidebar">
-//       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-//         <img src="/icon.png" alt="Learnit Logo" style={{ width: "40px" }} />
-//         <h2 style={{ marginTop: "15px" }}> LMS Dashboard</h2>
-//       </div>
-
-//       <div className="user-info">
-//         <FaUser className="user-icon" />
-//         <div>
-//           <p>{user?.name}</p>
-//           <span>{user?.role === "instructor" ? "Instructor" : "Student"}</span>
-//         </div>
-//       </div>
-
-//       <nav>
-//         <ul>
-//           <li>
-//             <NavLink
-//               to="/dashboard"
-//               className={({ isActive }) => (isActive ? "active" : "")}
-//             >
-//               <FaHome /> Dashboard
-//             </NavLink>
-//           </li>
-
-//           {/* Student Navigation */}
-//           {user?.role === "student" && (
-//             <>
-//               <li>
-//                 <NavLink
-//                   to="/courses"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaSearch /> Browse Courses
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/enrolled-courses"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaGraduationCap /> My Learning
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/terminal"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaTerminal /> Code Terminal
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/materials"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaFileAlt /> Course Materials
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/assignments"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaClipboardList /> Assignments
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="http://localhost:3000"
-//                   target="_blank"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaChalkboardTeacher /> Meetings
-//                 </NavLink>
-//               </li>
-//             </>
-//           )}
-
-//           {/* Instructor Navigation */}
-//           {user?.role === "instructor" && (
-//             <>
-//               <li>
-//                 <NavLink
-//                   to="/courses"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaBook /> Create Course
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/manage-courses"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaChalkboardTeacher /> Manage Courses
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/quiz-management"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaQuestionCircle /> Quiz Management
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="/upload-materials"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaUpload /> Upload Materials
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   to="http://localhost:3000"
-//                   target="_blank"
-//                   className={({ isActive }) => (isActive ? "active" : "")}
-//                 >
-//                   <FaChalkboardTeacher /> Meetings
-//                 </NavLink>
-//               </li>
-//             </>
-//           )}
-
-//           {/* Common Navigation */}
-//           <li className="divider"></li>
-//           <li>
-//             <NavLink
-//               to="/dashboard/profile"
-//               className={({ isActive }) => (isActive ? "active" : "")}
-//             >
-//               <FaUserCircle /> My Profile
-//             </NavLink>
-//           </li>
-//           <li>
-//             <NavLink
-//               to="/dashboard/settings"
-//               className={({ isActive }) => (isActive ? "active" : "")}
-//             >
-//               <FaCog /> Settings
-//             </NavLink>
-//           </li>
-//           <li className="logout" onClick={handleLogout}>
-//             <FaSignOutAlt /> Logout
-//           </li>
-//         </ul>
-//       </nav>
-//     </aside>
-//   );
-// }
-
-
-
 import { NavLink } from "react-router-dom";
-import { FaTerminal, FaFileAlt } from "react-icons/fa"; // Import FaFileAlt for the new icon
-import "../styles/Dashboard.css";
 import {
-  FaUser,
-  FaHome,
   FaBook,
-  FaClipboardList,
   FaChalkboardTeacher,
-  FaSignOutAlt,
+  FaClipboardList,
+  FaFileAlt,
   FaGraduationCap,
-  FaSearch,
+  FaHome,
   FaQuestionCircle,
-  FaUserCircle,
+  FaSearch,
+  FaSignOutAlt,
+  FaTerminal,
   FaUpload,
+  FaUser,
+  FaUserCircle,
   FaVideo,
 } from "react-icons/fa";
 
+const studentLinks = [
+  { to: "/dashboard", label: "Dashboard", icon: FaHome },
+  { to: "/courses", label: "Browse Courses", icon: FaSearch },
+  { to: "/enrolled-courses", label: "My Learning", icon: FaGraduationCap },
+  { to: "/assignments", label: "Assignments", icon: FaClipboardList },
+  { to: "/materials", label: "Course Materials", icon: FaFileAlt },
+  { to: "/terminal", label: "Code Terminal", icon: FaTerminal },
+  { to: "/meetings", label: "Meetings", icon: FaVideo },
+];
+
+const instructorLinks = [
+  { to: "/dashboard", label: "Dashboard", icon: FaHome },
+  { to: "/courses", label: "Create Course", icon: FaBook },
+  { to: "/manage-courses", label: "Manage Courses", icon: FaChalkboardTeacher },
+  { to: "/quiz-management", label: "Quiz Management", icon: FaQuestionCircle },
+  { to: "/upload-materials", label: "Upload Materials", icon: FaUpload },
+  { to: "/view-materials", label: "View Materials", icon: FaFileAlt },
+  { to: "/meetings", label: "Meetings", icon: FaVideo },
+];
+
+const commonLinks = [
+  { to: "/dashboard/profile", label: "My Profile", icon: FaUserCircle },
+];
+
+const roleLabels = {
+  instructor: "Instructor",
+  teacher: "Instructor",
+  student: "Student",
+};
+
+const getInitials = (name = "") =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "L";
+
 export default function Sidebar({ user, handleLogout }) {
+  const role = user?.role?.toLowerCase();
+  const isInstructor = role === "instructor" || role === "teacher";
+  const navLinks = isInstructor ? instructorLinks : studentLinks;
+
+  const renderLinks = (links) =>
+    links.map(({ to, label, icon: Icon }) => (
+      <NavLink
+        key={to}
+        to={to}
+        className={({ isActive }) =>
+          `sidebar-link${isActive ? " active" : ""}`
+        }
+      >
+        <span className="sidebar-link__icon">
+          <Icon />
+        </span>
+        <span>{label}</span>
+      </NavLink>
+    ));
+
   return (
     <aside className="sidebar">
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <img src="/icon.png" alt="Learnit Logo" style={{ width: "40px" }} />
-        <h2 style={{ marginTop: "15px" }}> LMS Dashboard</h2>
-      </div>
-
-      <div className="user-info">
-        <FaUser className="user-icon" />
-        <div>
-          <p>{user?.name}</p>
-          <span>{user?.role === "instructor" ? "Instructor" : "Student"}</span>
+      <div className="sidebar-brand">
+        <div className="sidebar-brand__mark">
+          <img src="/icon.png" alt="Learnit Logo" />
+        </div>
+        <div className="sidebar-brand__copy">
+          <p>Learning Workspace</p>
+          <h1>Learnit LMS</h1>
         </div>
       </div>
 
-      <nav>
-        <ul>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FaHome /> Dashboard
-            </NavLink>
-          </li>
+      <div className="sidebar-user-card">
+        <div className="sidebar-user-card__avatar">
+          {user?.name ? getInitials(user.name) : <FaUser />}
+        </div>
+        <div className="sidebar-user-card__info">
+          <strong>{user?.name || "Welcome"}</strong>
+          <span>{roleLabels[role] || "Learner"}</span>
+        </div>
+      </div>
 
-          {/* Student Navigation */}
-          {user?.role === "student" && (
-            <>
-              <li>
-                <NavLink
-                  to="/courses"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaSearch /> Browse Courses
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/enrolled-courses"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaGraduationCap /> My Learning
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/terminal"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaTerminal /> Code Terminal
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/materials"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaFileAlt /> Course Materials
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/assignments"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaClipboardList /> Assignments
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/meetings"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaVideo /> Meetings
-                </NavLink>
-              </li>
-            </>
-          )}
+      <div className="sidebar-nav-group">
+        <p className="sidebar-nav-label">Workspace</p>
+        <nav className="sidebar-nav">{renderLinks(navLinks)}</nav>
+      </div>
 
-          {/* Instructor Navigation */}
-          {user?.role === "instructor" && (
-            <>
-              <li>
-                <NavLink
-                  to="/courses"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaBook /> Create Course
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/manage-courses"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaChalkboardTeacher /> Manage Courses
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/quiz-management"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaQuestionCircle /> Quiz Management
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/upload-materials"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaUpload /> Upload Materials
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/view-materials"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaFileAlt /> View Materials
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/meetings"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FaVideo /> Meetings
-                </NavLink>
-              </li>
-            </>
-          )}
+      <div className="sidebar-nav-group sidebar-nav-group--secondary">
+        <p className="sidebar-nav-label">Account</p>
+        <nav className="sidebar-nav">{renderLinks(commonLinks)}</nav>
+      </div>
 
-          {/* Common Navigation */}
-          <li className="divider"></li>
-          <li>
-            <NavLink
-              to="/dashboard/profile"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FaUserCircle /> My Profile
-            </NavLink>
-          </li>
-          {/* <li>
-            <NavLink
-              to="/dashboard/settings"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FaCog /> Settings
-            </NavLink>
-          </li> */}
-          <li className="logout" onClick={handleLogout}>
-            <FaSignOutAlt /> Logout
-          </li>
-        </ul>
-      </nav>
+      <div className="sidebar-footer">
+        <div>
+          <p className="sidebar-footer__label">Current mode</p>
+          <strong>{isInstructor ? "Instructor studio" : "Student learning"}</strong>
+        </div>
+        <button
+          type="button"
+          className="sidebar-logout"
+          onClick={handleLogout}
+        >
+          <FaSignOutAlt />
+          <span>Logout</span>
+        </button>
+      </div>
     </aside>
   );
 }

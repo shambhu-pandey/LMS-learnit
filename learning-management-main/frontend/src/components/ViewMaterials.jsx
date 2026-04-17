@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Download, Eye, Trash2 } from "lucide-react";
+import { useOutletContext } from "react-router-dom";
 import axios from "../api/axios";
-import { Eye, Download, Trash2 } from "lucide-react"; // Import Trash2 for delete icon
-import "../styles/ViewMaterials.css"; // Custom CSS file
+import "../styles/ViewMaterials.css";
 
-const ViewMaterials = ({ user }) => {
+const ViewMaterials = () => {
+  const { user } = useOutletContext();
   const [courses, setCourses] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,6 @@ const ViewMaterials = ({ user }) => {
         const materialsResponse = await axios.get("/api/materials");
         const allMaterials = materialsResponse.data.materials || [];
 
-        // Filter materials by teacherId if the user is an instructor
         const filteredMaterials =
           user?.role === "instructor"
             ? allMaterials.filter((material) => material.teacherId === user._id)
@@ -34,15 +35,15 @@ const ViewMaterials = ({ user }) => {
     fetchCoursesAndMaterials();
   }, [user]);
 
-  const getMaterialsByCourse = (courseId) => {
-    return materials.filter((material) => material.courseId === courseId);
-  };
+  const totalMaterials = useMemo(() => materials.length, [materials.length]);
+
+  const getMaterialsByCourse = (courseId) =>
+    materials.filter((material) => material.courseId === courseId);
 
   const handleDelete = async (materialId) => {
     if (window.confirm("Are you sure you want to delete this material?")) {
       try {
         await axios.delete(`/api/materials/${materialId}`);
-        alert("Material deleted successfully");
         setMaterials((prevMaterials) =>
           prevMaterials.filter((material) => material._id !== materialId)
         );
@@ -53,34 +54,55 @@ const ViewMaterials = ({ user }) => {
     }
   };
 
-
-  
-
   if (loading) {
     return <p className="view-materials-loading">Loading data...</p>;
   }
 
   return (
-    <div className="view-materials-container">
-      <h2 className="view-materials-title">All Course Materials</h2>
+    <div className="view-materials-container page-shell">
+      <div className="page-header">
+        <div className="header-group">
+          <span className="section-kicker">Resource library</span>
+          <h2 className="heading-main view-materials-title">All course materials</h2>
+          <p>
+            Review uploaded resources by course, then open, download, or remove them
+            without disturbing your existing material workflow.
+          </p>
+        </div>
+
+        <div className="materials-summary surface-card">
+          <strong>{totalMaterials}</strong>
+          <span>Files available</span>
+        </div>
+      </div>
+
       {courses.map((course) => {
         const courseMaterials = getMaterialsByCourse(course._id);
+
         return (
-          <div key={course._id} className="course-card">
-            <h3 className="course-title">{course.title}</h3>
-            <p className="course-category">Category: {course.category}</p>
+          <section key={course._id} className="view-materials-course surface-card">
+            <div className="view-materials-course__header">
+              <div>
+                <h3 className="course-title">{course.title}</h3>
+                <p className="course-category">Category: {course.category}</p>
+              </div>
+              <span className="materials-count">{courseMaterials.length} files</span>
+            </div>
 
             {courseMaterials.length === 0 ? (
-              <p className="no-materials">
-                No materials available for this course.
-              </p>
+              <p className="no-materials">No materials available for this course.</p>
             ) : (
               <ul className="materials-list">
                 {courseMaterials.map((material) => (
                   <li key={material._id} className="material-item">
-                    <span className="material-title">
-                      {material.title || material.fileName}
-                    </span>
+                    <div>
+                      <span className="material-title">
+                        {material.title || material.fileName}
+                      </span>
+                      <p className="material-subtitle">
+                        Added for this course resource library
+                      </p>
+                    </div>
                     <div className="material-actions">
                       <a
                         href={`http://localhost:5000/${material.filePath}`}
@@ -101,6 +123,7 @@ const ViewMaterials = ({ user }) => {
                         <Download size={18} />
                       </a>
                       <button
+                        type="button"
                         onClick={() => handleDelete(material._id)}
                         className="material-icon delete-icon"
                         title="Delete"
@@ -112,7 +135,7 @@ const ViewMaterials = ({ user }) => {
                 ))}
               </ul>
             )}
-          </div>
+          </section>
         );
       })}
     </div>

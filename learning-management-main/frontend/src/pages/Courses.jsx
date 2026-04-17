@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  FaTrash,
   FaEdit,
-  FaStar,
-  FaPlus,
-  FaCheckCircle,
   FaEye,
-  FaLock,
-  FaUnlock,
   FaGraduationCap,
+  FaLock,
+  FaPlus,
   FaSpinner,
-  FaChevronUp,
+  FaTrash,
+  FaUnlock,
 } from "react-icons/fa";
-import "../styles/Courses.css";
-// Update this import
 import EnhancedVideoPlayer from "../components/EnhancedVideoPlayer";
+import "../styles/Courses.css";
+
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
@@ -71,6 +68,28 @@ const Courses = () => {
     fetchData();
   }, [navigate]);
 
+  const isInstructor =
+    user?.role?.toLowerCase() === "instructor" ||
+    user?.role?.toLowerCase() === "teacher";
+
+  const stats = useMemo(
+    () => [
+      {
+        label: isInstructor ? "Courses created" : "Courses available",
+        value: courses.length,
+      },
+      {
+        label: "Unlocked",
+        value: courses.filter((course) => !course.isLocked).length,
+      },
+      {
+        label: "With lectures",
+        value: courses.filter((course) => (course.lectures?.length || 0) > 0).length,
+      },
+    ],
+    [courses, isInstructor]
+  );
+
   const handleCreateCourse = async (e) => {
     e.preventDefault();
     try {
@@ -97,7 +116,7 @@ const Courses = () => {
   const handleEnrollCourse = async (courseId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
+      await axios.post(
         `/api/courses/${courseId}/enroll`,
         {},
         {
@@ -105,7 +124,6 @@ const Courses = () => {
         }
       );
 
-      // Update the courses state to reflect enrollment
       setCourses((prevCourses) =>
         prevCourses.map((course) =>
           course._id === courseId ? { ...course, isEnrolled: true } : course
@@ -113,16 +131,12 @@ const Courses = () => {
       );
 
       toast.success("Successfully enrolled in course!");
-
-      // Optional: Redirect to enrolled courses page
       setTimeout(() => {
         navigate("/enrolled-courses");
-      }, 1500);
+      }, 1000);
     } catch (error) {
       console.error("Error enrolling in course:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to enroll in course"
-      );
+      toast.error(error.response?.data?.message || "Failed to enroll in course");
     } finally {
       setLoading(false);
     }
@@ -189,7 +203,7 @@ const Courses = () => {
         {
           title: lectureTitle,
           description: lectureTitle,
-          videoUrl: videoUrl,
+          videoUrl,
         },
         {
           headers: {
@@ -218,60 +232,8 @@ const Courses = () => {
     }
   };
 
-  // const handleCreateLecture = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     setLoading(true);
-
-  //     // Enhanced YouTube URL validation and formatting
-  //     let formattedUrl = lectureUrl;
-  //     const youtubeRegex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  //     const match = lectureUrl.match(youtubeRegex);
-
-  //     if (!match || match[2].length !== 11) {
-  //       toast.error('Please enter a valid YouTube URL');
-  //       return;
-  //     }
-
-  //     // Convert to embed URL
-  //     formattedUrl = `https://www.youtube.com/embed/${match[2]}`;
-
-  //     const response = await axios.post(
-  //       `/api/courses/${selectedCourse._id}/lectures`,
-  //       {
-  //         title: lectureTitle,
-  //         videoUrl: formattedUrl
-  //       },
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${localStorage.getItem('token')}`
-  //         }
-  //       }
-  //     );
-
-  //     setCourses(courses.map(course =>
-  //       course._id === selectedCourse._id ? response.data : course
-  //     ));
-
-  //     setShowLectureModal(false);
-  //     setLectureTitle('');
-  //     setLectureUrl('');
-  //     setSelectedCourse(null);
-  //     toast.success('Lecture added successfully!');
-  //   } catch (error) {
-  //     console.error('Error adding lecture:', error);
-  //     toast.error(error.response?.data?.message || 'Failed to add lecture');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // Add this function in your Courses component
   const handleDeleteCourse = async (courseId) => {
     try {
-      // Show confirmation dialog
       if (
         !window.confirm(
           "Are you sure you want to delete this course? This action cannot be undone."
@@ -286,7 +248,6 @@ const Courses = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      // Remove the deleted course from state
       setCourses((prevCourses) =>
         prevCourses.filter((course) => course._id !== courseId)
       );
@@ -299,35 +260,11 @@ const Courses = () => {
       setLoading(false);
     }
   };
-  // const handleToggleLock = async (courseId) => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.put(
-  //       `/api/courses/${courseId}/toggle-lock`,
-  //       {},
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //       }
-  //     );
-  //     setCourses(
-  //       courses.map((course) =>
-  //         course._id === courseId ? res.data : course
-  //       )
-  //     );
-  //     toast.success(`Course ${res.data.isLocked ? 'locked' : 'unlocked'} successfully!`);
-  //   } catch (error) {
-  //     console.error("Error toggling course lock:", error);
-  //     toast.error(error.response?.data?.message || "Failed to toggle course lock");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleToggleLock = async (courseId, e) => {
     try {
-      e?.stopPropagation(); // Prevent event bubbling if event exists
+      e?.stopPropagation();
 
-      // Find the current course
       const currentCourse = courses.find((course) => course._id === courseId);
       if (!currentCourse) {
         toast.error("Course not found");
@@ -344,7 +281,6 @@ const Courses = () => {
         }
       );
 
-      // Update the courses state with the new lock status
       setCourses((prevCourses) =>
         prevCourses.map((course) =>
           course._id === courseId
@@ -353,19 +289,17 @@ const Courses = () => {
         )
       );
 
-      // Show success message
       toast.success(
         `Course ${response.data.isLocked ? "locked" : "unlocked"} successfully!`
       );
     } catch (error) {
       console.error("Error toggling course lock:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to toggle course lock"
-      );
+      toast.error(error.response?.data?.message || "Failed to toggle course lock");
     } finally {
       setLoading(false);
     }
   };
+
   const handleAddLecture = (course) => {
     setSelectedCourse(course);
     setShowLectureModal(true);
@@ -390,162 +324,196 @@ const Courses = () => {
   }
 
   return (
-    <div className="courses-container">
-      <div className="header-group">
-        <h1 className="heading-main">Courses</h1>
-        <p>You Can Enroll And Study</p>
+    <div className="courses-container page-shell">
+      <div className="page-header">
+        <div className="header-group">
+          <span className="section-kicker">
+            {isInstructor ? "Instructor catalog" : "Course discovery"}
+          </span>
+          <h1 className="heading-main">
+            {isInstructor ? "Build and shape your course library" : "Explore your next learning path"}
+          </h1>
+          <p>
+            {isInstructor
+              ? "Create courses, fine-tune access, and attach lectures without touching your existing workflow."
+              : "Browse courses, unlock content, and move into study mode with a clearer, cleaner layout."}
+          </p>
+        </div>
+
+        {isInstructor ? (
+          <button
+            type="button"
+            className="primary-btn create-course-btn"
+            onClick={() => setShowModal(true)}
+            disabled={loading}
+          >
+            <FaPlus />
+            <span>Create Course</span>
+          </button>
+        ) : null}
       </div>
-      {user && user.role === "instructor" && (
-        <button
-          className="create-course-btn"
-          onClick={() => setShowModal(true)}
-          disabled={loading}
-        >
-          <FaPlus /> Create Course
-        </button>
-      )}
+
+      <div className="courses-stats">
+        {stats.map((item) => (
+          <div key={item.label} className="course-stat-card surface-card">
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
 
       <div className="courses-list">
         {courses.length > 0 ? (
-          courses.map((course) => (
-            <div
-              key={course._id}
-              className={`course-card ${course.isLocked ? "locked" : ""}`}
-            >
-              {/* <div className="course-header">
-                <h2>{course.title}</h2>
-                {user && user.role === "instructor" && (
-                  <button
-                    className={`lock-button ${loading ? 'loading' : ''}`}
-                    onClick={() => handleToggleLock(course._id)}
-                    disabled={loading}
-                    title={course.isLocked ? "Unlock Course" : "Lock Course"}
-                  >
-                    {loading ? <FaSpinner className="spinner" /> : 
-                      course.isLocked ? <FaLock /> : <FaUnlock />
-                    }
-                  </button>
-                )}
-              </div> */}
+          courses.map((course) => {
+            const canOpenCourse =
+              !course.isLocked || course.isEnrolled || isInstructor;
 
-              <div className="course-header">
-                <h2>{course.title}</h2>
-                {user && user.role === "instructor" && (
-                  <button
-                    className={`lock-button ${loading ? "loading" : ""}`}
-                    onClick={(e) => handleToggleLock(course._id, e)}
-                    disabled={loading}
-                    title={course.isLocked ? "Unlock Course" : "Lock Course"}
-                  >
-                    {loading ? (
-                      <FaSpinner className="spinner" />
-                    ) : course.isLocked ? (
-                      <FaLock className="lock-icon" />
-                    ) : (
-                      <FaUnlock className="unlock-icon" />
-                    )}
-                  </button>
-                )}
-              </div>
-
-              <p className="description">{course.description}</p>
-              <p className="category">Category: {course.category}</p>
-              <p className="instructor">Instructor: {course.instructorName}</p>
-
-              <div className="course-actions">
-                {user && user.role === "instructor" ? (
-                  <div className="instructor-actions">
-                    <FaEdit
-                      className="icon edit"
-                      title="Edit Course"
-                      onClick={() => handleEditCourse(course)}
-                    />
-                    <FaTrash
-                      className="icon delete"
-                      title="Delete Course"
-                      onClick={() => handleDeleteCourse(course._id)}
-                    />
-                    <FaPlus
-                      className="icon add-lecture"
-                      title="Add Lecture"
-                      onClick={() => handleAddLecture(course)}
-                    />
+            return (
+              <article key={course._id} className="course-card surface-card">
+                <div className="course-card-top">
+                  <div className="course-card-meta">
+                    <span className="course-pill">{course.category || "General"}</span>
+                    <span
+                      className={`course-access ${
+                        course.isLocked ? "locked" : "open"
+                      }`}
+                    >
+                      {course.isLocked ? "Locked" : "Open"}
+                    </span>
                   </div>
-                ) : (
-                  <div className="student-actions">
-                    {!course.isEnrolled && course.isLocked ? (
-                      <button
-                        className={`enroll-button ${loading ? "loading" : ""}`}
-                        onClick={() => handleEnrollCourse(course._id)}
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <FaSpinner className="spinner" />
-                        ) : (
-                          <>
-                            <FaGraduationCap /> Enroll to Unlock
-                          </>
-                        )}
-                      </button>
-                    ) : (
-                      <FaEye
-                        className="icon preview"
-                        title="View Course"
-                        onClick={() => navigate(`/course/${course._id}`)}
-                      />
-                    )}
-                  </div>
-                )}
-              </div>
 
-              {(!course.isLocked || course.isEnrolled || user?.role === "instructor") && (
-                <div className="lectures-list">
-                  {/* {course.lectures?.map((lecture) => (
-                    <div key={lecture._id} className="lecture-item">
-                      <h3>{lecture.title}</h3>
-                      {lecture.videoUrl && (
-                        <div className="video-container">
-                          <iframe
-                            width="100%"
-                            height="315"
-                            src={lecture.videoUrl}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            title={lecture.title}
-                          ></iframe>
-                        </div>
+                  {isInstructor ? (
+                    <button
+                      type="button"
+                      className={`lock-button ${loading ? "loading" : ""}`}
+                      onClick={(e) => handleToggleLock(course._id, e)}
+                      disabled={loading}
+                      title={course.isLocked ? "Unlock Course" : "Lock Course"}
+                    >
+                      {loading ? (
+                        <FaSpinner className="spinner" />
+                      ) : course.isLocked ? (
+                        <FaLock className="lock-icon" />
+                      ) : (
+                        <FaUnlock className="unlock-icon" />
                       )}
-                    </div>
-                  ))} */}
-
-                  {/* // In the lectures mapping section, update the video rendering: */}
-                  {course.lectures?.map((lecture) => (
-                    <div key={lecture._id} className="lecture-item">
-                      <h3>{lecture.title}</h3>
-                      {lecture.videoUrl && (
-                        <EnhancedVideoPlayer
-                          videoUrl={lecture.videoUrl}
-                          title={lecture.title}
-                        />
-                      )}
-                    </div>
-                  ))}
+                    </button>
+                  ) : null}
                 </div>
-              )}
-            </div>
-          ))
+
+                <div className="course-header">
+                  <h2>{course.title}</h2>
+                  <p className="description">{course.description}</p>
+                </div>
+
+                <div className="course-facts">
+                  <span>Instructor: {course.instructorName || "Learnit"}</span>
+                  <span>{course.lectures?.length || 0} lectures</span>
+                </div>
+
+                <div className="course-actions">
+                  {isInstructor ? (
+                    <div className="instructor-actions">
+                      <button
+                        type="button"
+                        className="course-tool-btn"
+                        title="Edit Course"
+                        onClick={() => handleEditCourse(course)}
+                      >
+                        <FaEdit />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="course-tool-btn course-tool-btn--danger"
+                        title="Delete Course"
+                        onClick={() => handleDeleteCourse(course._id)}
+                      >
+                        <FaTrash />
+                        <span>Delete</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="course-tool-btn"
+                        title="Add Lecture"
+                        onClick={() => handleAddLecture(course)}
+                      >
+                        <FaPlus />
+                        <span>Add lecture</span>
+                      </button>
+                    </div>
+                  ) : canOpenCourse ? (
+                    <button
+                      type="button"
+                      className="secondary-btn course-open-btn"
+                      onClick={() => navigate(`/course/${course._id}`)}
+                    >
+                      <FaEye />
+                      <span>Open Course</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`primary-btn enroll-button ${
+                        loading ? "loading" : ""
+                      }`}
+                      onClick={() => handleEnrollCourse(course._id)}
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <FaSpinner className="spinner" />
+                      ) : (
+                        <>
+                          <FaGraduationCap />
+                          <span>Enroll to Unlock</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+
+                {canOpenCourse ? (
+                  <div className="lectures-list">
+                    <div className="lectures-list__header">
+                      <h3>Lecture preview</h3>
+                      <span>{course.lectures?.length || 0} lessons</span>
+                    </div>
+
+                    {course.lectures?.length ? (
+                      course.lectures.map((lecture) => (
+                        <div key={lecture._id} className="lecture-item">
+                          <div className="lecture-item__head">
+                            <h4>{lecture.title}</h4>
+                          </div>
+                          {lecture.videoUrl ? (
+                            <EnhancedVideoPlayer
+                              videoUrl={lecture.videoUrl}
+                              title={lecture.title}
+                            />
+                          ) : null}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="empty-lectures">
+                        No lectures have been added to this course yet.
+                      </p>
+                    )}
+                  </div>
+                ) : null}
+              </article>
+            );
+          })
         ) : (
-          <div className="no-courses">
-            <p>No courses available. Please check back later.</p>
+          <div className="no-courses surface-card">
+            <p>No courses available right now. Please check back in a moment.</p>
           </div>
         )}
       </div>
 
-      {showModal && (
+      {showModal ? (
         <div className="modal-overlay">
           <div className="modalx">
-            <h2>{editingCourse ? "Edit Course" : "Create a New Course"}</h2>
+            <h2>{editingCourse ? "Edit course" : "Create a new course"}</h2>
             <form
               onSubmit={editingCourse ? handleUpdateCourse : handleCreateCourse}
             >
@@ -596,7 +564,7 @@ const Courses = () => {
               </div>
 
               <div className="form-group">
-                <label className="modal-form-label">Course Access</label>
+                <label className="modal-form-label">Course access</label>
                 <div className="toggle-switch">
                   <input
                     type="checkbox"
@@ -605,7 +573,7 @@ const Courses = () => {
                     id="lock-toggle"
                   />
                   <label htmlFor="lock-toggle">
-                    {isLocked ? "Locked" : "Unlocked"}
+                    {isLocked ? "Locked until enrollment" : "Open to preview"}
                   </label>
                 </div>
               </div>
@@ -613,18 +581,14 @@ const Courses = () => {
               <div className="modal-actions">
                 <button
                   type="submit"
-                  className="modal-btn create"
+                  className="primary-btn"
                   disabled={loading}
                 >
-                  {loading
-                    ? "Processing..."
-                    : editingCourse
-                    ? "Update"
-                    : "Create"}
+                  {loading ? "Processing..." : editingCourse ? "Update" : "Create"}
                 </button>
                 <button
                   type="button"
-                  className="modal-btn cancel"
+                  className="ghost-btn"
                   onClick={() => {
                     setShowModal(false);
                     resetForm();
@@ -637,16 +601,16 @@ const Courses = () => {
             </form>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {showLectureModal && (
+      {showLectureModal ? (
         <div className="modal-overlay">
           <div className="modalx">
-            <h2>Add New Lecture</h2>
+            <h2>Add new lecture</h2>
             <form onSubmit={handleCreateLecture}>
               <div className="form-group">
                 <label className="modal-form-label">
-                  Topic Title <span className="required">*</span>
+                  Topic title <span className="required">*</span>
                 </label>
                 <input
                   type="text"
@@ -660,33 +624,33 @@ const Courses = () => {
 
               <div className="form-group">
                 <label className="modal-form-label">
-                  YouTube Video URL <span className="required">*</span>
+                  YouTube video URL <span className="required">*</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter YouTube video URL (e.g., https://www.youtube.com/watch?v=xxxxx)"
+                  placeholder="Enter YouTube video URL"
                   value={lectureUrl}
                   onChange={(e) => setLectureUrl(e.target.value)}
                   required
                   className="form-control"
                 />
                 <small className="help-text">
-                  Please enter a valid YouTube URL (e.g.,
-                  https://www.youtube.com/watch?v=xxxxx)
+                  Please enter a valid YouTube URL such as
+                  https://www.youtube.com/watch?v=xxxxx
                 </small>
               </div>
 
               <div className="modal-actions">
                 <button
                   type="submit"
-                  className="modal-btn create"
+                  className="primary-btn"
                   disabled={loading}
                 >
-                  {loading ? "Adding..." : "Add Lecture"}
+                  {loading ? "Adding..." : "Add lecture"}
                 </button>
                 <button
                   type="button"
-                  className="modal-btn cancel"
+                  className="ghost-btn"
                   onClick={() => {
                     setShowLectureModal(false);
                     setLectureTitle("");
@@ -701,7 +665,7 @@ const Courses = () => {
             </form>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

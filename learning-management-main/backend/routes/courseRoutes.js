@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { protect, instructor } = require("../middleware/authMiddleware");
+const materialController = require("../controllers/materialController");
+const upload = require("../middleware/uploadMiddleware");
 const {
   createCourse,
   getCourses,
@@ -37,6 +39,16 @@ router.delete("/:id/unenroll", protect, unenrollCourse);
 router.post("/:courseId/lectures", protect, instructor, addLecture);
 router.get("/:courseId/lectures", protect, getCourseLectures);
 router.delete("/:courseId/lectures/:lectureId", protect, instructor, deleteLecture);
+
+// Course material routes
+router.get("/:courseId/materials", protect, materialController.getCourseMaterials);
+router.post(
+  "/:courseId/materials",
+  protect,
+  instructor,
+  upload.single("file"),
+  materialController.uploadMaterial
+);
 
 // Course lock route
 router.put("/:id/toggle-lock", protect, instructor, toggleCourseLock);
@@ -129,7 +141,6 @@ module.exports = router;
 // router.post("/", protect, instructor, createCourse);
 
 // module.exports = router;
-
 
 
 
