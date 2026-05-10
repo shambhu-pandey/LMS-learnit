@@ -142,6 +142,16 @@ app.use("/api/materials", materialRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/terminal", terminalRoutes);
 app.use("/api/meetings", meetingRoutes);
+
+// Serve frontend build (if present) from backend/client
+const clientBuildPath = path.join(__dirname, 'client');
+if (fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
 // Global error handling middleware
 app.use((err, req, res, next) => {
   console.error("Error:", err);
