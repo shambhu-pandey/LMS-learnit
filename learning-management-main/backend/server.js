@@ -142,6 +142,10 @@ app.use("/api/materials", materialRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/terminal", terminalRoutes);
 app.use("/api/meetings", meetingRoutes);
+// Health check for Render and uptime monitoring
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, time: Date.now() });
+});
 
 // Serve frontend build (if present) from backend/client
 const clientBuildPath = path.join(__dirname, 'client');

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: lms-backend
+    env: node
+    plan: free
+    region: oregon
+    repo: https://github.com/shambhu-pandey/LMS-learnit
+    branch: main
+    root: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
