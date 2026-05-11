@@ -1,55 +1,38 @@
-// const mongoose = require('mongoose');
-
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect(process.env.MONGO_URI, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log('MongoDB connected');
-//   } catch (error) {
-//     console.error(error.message);
-//     process.exit(1);
-//   }
-// };
-
-// module.exports = connectDB;
-
-
-
-
-
-
 const mongoose = require('mongoose');
 
-// MongoDB connection function with enhanced error handling and logging
+let retryTimer = null;
+
 const connectDB = async () => {
+  if (!process.env.MONGO_URI) {
+    console.warn('MongoDB connection skipped: MONGO_URI is not set.');
+    return;
+  }
+
   try {
-const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
 
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    
-    // Handle connection events
-    mongoose.connection.on('error', err => {
-      console.error('❌ MongoDB connection error:', err);
-    });
-
-    mongoose.connection.on('disconnected', () => {
-      console.warn('⚠️ MongoDB disconnected');
-    });
-
-    mongoose.connection.on('reconnected', () => {
-      console.log('✅ MongoDB reconnected');
-    });
-
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('❌ MongoDB Connection Error:', error.message);
-    // Exit process with failure
-    process.exit(1);
+    console.error('MongoDB connection error:', error.message);
+
+    clearTimeout(retryTimer);
+    retryTimer = setTimeout(connectDB, 30000);
   }
 };
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('MongoDB disconnected.');
+});
+
+mongoose.connection.on('reconnected', () => {
+  console.log('MongoDB reconnected.');
+});
 
 module.exports = connectDB;
