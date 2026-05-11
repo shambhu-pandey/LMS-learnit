@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Download, Eye, Trash2 } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
-import axios from "../api/axios";
+import axios, { buildApiUrl } from "../api/axios";
 import "../styles/ViewMaterials.css";
 
 const ViewMaterials = () => {
@@ -105,7 +105,7 @@ const ViewMaterials = () => {
                     </div>
                     <div className="material-actions">
                       <a
-                        href={`http://localhost:5000/${material.filePath}`}
+                        href={buildApiUrl(material.filePath)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="material-icon view-icon"
@@ -114,7 +114,7 @@ const ViewMaterials = () => {
                         <Eye size={18} />
                       </a>
                       <a
-                        href={`http://localhost:5000/${material.filePath}`}
+                        href={buildApiUrl(material.filePath)}
                         download
                         className="material-icon download-icon"
                         title="Download"

@@ -4,8 +4,6 @@ services:
     runtime: docker
     plan: free
     region: oregon
-    repo: https://github.com/shambhu-pandey/LMS-learnit
-    branch: main
     rootDir: learning-management-main
     dockerContext: .
     dockerfilePath: ./Dockerfile

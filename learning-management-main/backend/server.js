@@ -101,15 +101,36 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Enhanced CORS configuration
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  ...(process.env.CLIENT_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+];
+
+const corsOptionsDelegate = (req, callback) => {
+  const requestOrigin = req.header("Origin");
+  let isSameHost = false;
+
+  if (requestOrigin) {
+    try {
+      isSameHost = new URL(requestOrigin).host === req.get("host");
+    } catch {
+      isSameHost = false;
+    }
+  }
+
+  callback(null, {
+    origin: !requestOrigin || isSameHost || allowedOrigins.includes(requestOrigin),
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+  });
+};
+
+app.use(cors(corsOptionsDelegate));
 
 // Body parsing middleware
 app.use(express.json());

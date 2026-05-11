@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment secrets
+.env
+**/.env
+
+# Build and local deploy output
+dist/
+**/dist/
+client/
+**/client/
+.tools/
+**/.tools/
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+backend/temp/
+**/backend/temp/
+
+# Editor/system files
+.DS_Store
+.idea/
+.vscode/

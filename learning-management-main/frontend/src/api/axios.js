@@ -46,8 +46,23 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const configuredApiUrl = import.meta.env.VITE_API_BASE_URL;
+
+export const API_BASE_URL =
+    configuredApiUrl ?? (import.meta.env.DEV ? 'http://localhost:5000' : '');
+
+export const buildApiUrl = (path) => {
+    if (/^https?:\/\//i.test(path)) {
+        return path;
+    }
+
+    const base = API_BASE_URL.replace(/\/$/, '');
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${normalizedPath}`;
+};
+
 const instance = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: API_BASE_URL,
     withCredentials: true,
     timeout: 30000, // 30 seconds
     headers: {

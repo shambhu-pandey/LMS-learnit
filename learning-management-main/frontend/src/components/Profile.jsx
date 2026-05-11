@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaLock, FaSave, FaEdit, FaTimes } from 'react-icons/fa';
 
@@ -46,7 +46,7 @@ export default function UserProfile() {
       }
 
       const response = await axios.put(
-        'http://localhost:5000/api/users/profile',
+        '/api/users/profile',
         updateData,
         {
           headers: {

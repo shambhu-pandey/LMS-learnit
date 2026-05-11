@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaEdit, FaTrash, FaSpinner, FaChartBar } from "react-icons/fa";
-import axios from "axios";
+import axios from "../api/axios";
 import { toast } from "react-toastify";
 import QuizCreator from "../components/QuizCreator";
 import "../styles/QuizManagement.css";
-
-axios.defaults.baseURL = "http://localhost:5000";
 
 const QuizManagement = () => {
   const navigate = useNavigate();

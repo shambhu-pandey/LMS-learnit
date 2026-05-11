@@ -10,7 +10,7 @@ FROM node:20-alpine AS backend-build
 WORKDIR /app
 COPY backend/package*.json ./backend/
 COPY backend/ ./backend/
-RUN cd backend && npm ci --only=production --silent
+RUN cd backend && npm ci --omit=dev --silent
 
 # copy frontend dist into backend/client so server can serve it
 COPY --from=frontend-build /app/frontend/dist ./backend/client

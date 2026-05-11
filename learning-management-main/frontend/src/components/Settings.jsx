@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from '../api/axios';
 
 export default function Settings({ user }) {
   const [settings, setSettings] = useState({
@@ -23,7 +23,7 @@ export default function Settings({ user }) {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        'http://localhost:5000/api/users/settings',
+        '/api/users/settings',
         settings,
         {
           headers: {

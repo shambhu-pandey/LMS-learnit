@@ -135,7 +135,7 @@
 
 
 import React, { useState, useEffect } from "react";
-import axios from "../api/axios";
+import axios, { buildApiUrl } from "../api/axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
@@ -245,7 +245,7 @@ const CourseMaterials = () => {
               </p>
             </div>
             <a
-              href={`http://localhost:5000/${material.filePath}`}
+              href={buildApiUrl(material.filePath)}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
