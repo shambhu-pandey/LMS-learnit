@@ -162,9 +162,11 @@ const getDbStatus = () => {
   };
   let mongoTarget = null;
 
-  if (process.env.MONGO_URI) {
+  const mongoUri = connectDB.getMongoUri ? connectDB.getMongoUri() : process.env.MONGO_URI;
+
+  if (mongoUri) {
     try {
-      const parsedUri = new URL(process.env.MONGO_URI);
+      const parsedUri = new URL(mongoUri);
       mongoTarget = {
         protocol: parsedUri.protocol.replace(":", ""),
         host: parsedUri.host,
