@@ -160,11 +160,27 @@ const getDbStatus = () => {
     2: "connecting",
     3: "disconnecting",
   };
+  let mongoTarget = null;
+
+  if (process.env.MONGO_URI) {
+    try {
+      const parsedUri = new URL(process.env.MONGO_URI);
+      mongoTarget = {
+        protocol: parsedUri.protocol.replace(":", ""),
+        host: parsedUri.host,
+        database: parsedUri.pathname.replace(/^\//, "") || "(default)",
+      };
+    } catch {
+      mongoTarget = { parseError: true };
+    }
+  }
 
   return {
     connected: mongoose.connection.readyState === 1,
     state: states[mongoose.connection.readyState] || "unknown",
     mongoConfigured: Boolean(process.env.MONGO_URI),
+    target: mongoTarget,
+    connection: connectDB.getStatus ? connectDB.getStatus() : null,
   };
 };
 
