@@ -153,6 +153,40 @@ const meetingRoutes = require("./routes/meetingRoutes");
 // Connect to DB
 connectDB();
 
+const getDbStatus = () => {
+  const states = {
+    0: "disconnected",
+    1: "connected",
+    2: "connecting",
+    3: "disconnecting",
+  };
+
+  return {
+    connected: mongoose.connection.readyState === 1,
+    state: states[mongoose.connection.readyState] || "unknown",
+    mongoConfigured: Boolean(process.env.MONGO_URI),
+  };
+};
+
+// Health check for Render and uptime monitoring
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, time: Date.now(), database: getDbStatus() });
+});
+
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health') return next();
+
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is not connected. Set MONGO_URI in Render and allow Render network access in MongoDB Atlas.',
+      database: getDbStatus(),
+    });
+  }
+
+  next();
+});
+
 // Mount Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
@@ -163,10 +197,6 @@ app.use("/api/materials", materialRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/terminal", terminalRoutes);
 app.use("/api/meetings", meetingRoutes);
-// Health check for Render and uptime monitoring
-app.get('/api/health', (req, res) => {
-  res.json({ ok: true, time: Date.now() });
-});
 
 // Serve frontend build (if present) from backend/client
 const clientBuildPath = path.join(__dirname, 'client');

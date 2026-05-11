@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.set('bufferCommands', false);
+
 let retryTimer = null;
 
 const connectDB = async () => {
